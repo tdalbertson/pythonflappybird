@@ -5,6 +5,10 @@ using pygame
 
 import pygame, sys
 
+def draw_floor():
+    screen.blit(floor_surface,(floor_x_position,900)) # Initial floor surface
+    screen.blit(floor_surface,(floor_x_position + 576 ,900)) # Right of initial floor surface
+
 pygame.init()
 screen = pygame.display.set_mode((576, 1024)) # x, y
 clock = pygame.time.Clock()
@@ -18,7 +22,8 @@ bg_surface = pygame.image.load('assets/background-day.png').convert()
 bg_surface = pygame.transform.scale2x(bg_surface)
 
 floor_surface = pygame.image.load('assets/base.png').convert() # Importing floor asset
-floor_surface = pygame.transform.scale2x(floor_surface).convert()
+floor_surface = pygame.transform.scale2x(floor_surface).convert() # Scaling floor
+floor_x_position = 0
 
 # Main Game loop
 while True:
@@ -33,7 +38,11 @@ while True:
     Decreate Y = going up
     Increase X = going right
     '''
-    screen.blit(floor_surface,(0,704)) # Placing floor asset on screen
+    floor_x_position -= 1 # Make floor look like it's moving
+    draw_floor()
+    if floor_x_position <= -576:
+        floor_x_position = 0 # Reset floor position 
+
 
     pygame.display.update() # Displays any updates that occur during the main game loop
     clock.tick(120) # Max frame rate is 120 fps
